@@ -32,6 +32,7 @@ makeCacheMatrix <- function(x = matrix()) {
   getinverse <- function() m
 
 ## Create list for set, get, setinverse, getinverse
+## Return list
   list(set = set, get = get,
        setinverse = setinverse,
        getinverse = getinverse)
@@ -46,11 +47,12 @@ makeCacheMatrix <- function(x = matrix()) {
 
 cacheSolve <- function(x, ...) {
 
-## Return a matrix that is the inverse of 'x'
-## Check if the cached matrix m exists, if m is not null return m from parent enviroment
+## Get a matrix that is the inverse of 'x'
+## Check if the cached matrix m is not null, return m from parent enviroment as cached inverse matrix
   m <- x$getinverse()
   if(!is.null(m)) {
     message("getting cached data")
+## Return m and end the function cacheSolve
     return(m)
   }
 
@@ -58,7 +60,7 @@ cacheSolve <- function(x, ...) {
   data <- x$get()
   m <- solve(data, ...)
 
-## Set the inverse matrix m to the parent enviroment
+## Set the inverse matrix m within the parent enviroment, as a cached symbol value pair
   x$setinverse(m)
 
 ## Return the inverse matrix m
